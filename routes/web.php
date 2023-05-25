@@ -13,6 +13,16 @@
 |
 */
 
+
+
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return "";
 });
+
+$router->post("/auth/login", ["uses" => "AuthController@login" ]);
+$router->get("/money", ["middleware" => ["auth"], "uses" => "PlayerController@GetBalance"]);
+$router->post("/money/pay/{targetUsername}", ["middleware" => ["auth"], "uses" => "PlayerController@PayMoney"]);
+$router->post("/auth/changePassword", ["middleware" => "auth", "uses" => "AuthController@changePassword"]);
+$router->get("/public/playerList", ["uses" => "PlayerController@PlayerList"]);
+$router->post("/game/auth", ["middleware" => ["auth"], "uses" => "AuthController@loginGame"]);
+$router->delete("/auth/login", ["middleware" => ["auth"], "uses" =>"AuthController@logoutAll"]);
